@@ -1,10 +1,9 @@
 #include <stdio.h>
 
 int suma_cyfr_do_kwadratu(number) {
-    int result = 0, cyfra;
+    int result = 0;
     while (number > 0) {
-        cyfra = number % 10;
-        result += cyfra * cyfra;
+        result += (number % 10) * (number % 10);
         number = number / 10;
     }
     return result;
