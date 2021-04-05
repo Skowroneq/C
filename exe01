@@ -24,11 +24,7 @@ int main() {
     int m, n, i, idx, counter;
     counter = 0;
 
-    int result[10];
-    idx = 0;
-    for (idx = 0; idx <= 9; ++idx) {
-        result[idx] = 0;
-    }
+    int result[10] = {0,0,0,0,0,0,0,0,0,0};
 
     scanf("%d%d", &m, &n);
     if (m == 1) {
