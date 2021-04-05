@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+int main() {
+    int N, K, i, j, index_max_value, sum_of_elements = 0;
+    scanf("%d%d", &N, &K);
+    int tab[N];
+    for (i = 0; i < N; i++) {
+        scanf("%d", &tab[i]);
+    }
+    for (j = 1; j <= K; j++) {
+        index_max_value = 0;
+        for (i = 1; i < N; i++) {
+            if (tab[i] > tab[index_max_value]) {
+                index_max_value = i;
+            }
+        }
+        tab[index_max_value] = tab[index_max_value] / 2;
+    }
+    for (i = 0; i < N; i++) {
+        sum_of_elements += tab[i];
+    }
+    printf("%d", sum_of_elements);
+    return 0;
+}
