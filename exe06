@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdbool.h>
+
+bool check = true;
+
+char chage_to_propper(int number) {
+    if (number == 10) {
+        return 'A';
+    } else if (number == 11) {
+        return 'B';
+    } else if (number == 12) {
+        return 'C';
+    } else if (number == 13) {
+        return 'D';
+    } else if (number == 14) {
+        return 'E';
+    } else if (number == 15) {
+        return 'F';
+    } else {
+        return number + 48;
+    }
+}
+
+void get_all(int b, int m, int tab[], int sum_1, int sum_2, int counter) {
+    if (counter == m) {
+        if ((sum_1 == sum_2) && (tab[0] != 0)) {
+            int x;
+            for (x = 0; x < m; x++) {
+                char new = chage_to_propper(tab[x]);
+                printf("%c", new);
+            }
+            printf(" ");
+            check = false;
+            return;
+        } else {
+            return;
+        }
+    }
+    int i;
+    for (i = 0; i < b; i++) {
+        tab[counter] = i;
+        double first = pow(i, m);
+        double second = pow(b, m - 1 - counter);
+        int first_propper = first + 1e-9;
+        int second_propper = second + 1e-9;
+        get_all(b, m, tab, sum_1 + first_propper, sum_2 + i * second_propper, counter + 1);
+
+    }
+}
+
+int main() {
+    int m, b;
+    scanf("%d %d", &m, &b);
+    int tab[m];
+    get_all(b, m, tab, 0, 0, 0);
+    if (check == true) {
+        printf("NO");
+    }
+    return 0;
+}
