@@ -1,0 +1,41 @@
+#include <stdio.h>
+
+int czy_odwaze(int n, int odwazniki[], int masa, int suma, int pozycja) {
+    if (suma == masa) {
+        return 1;
+    }
+    if (suma > masa) {
+        return 0;
+    }
+    if (pozycja == n) {
+        return 0;
+    }
+    return (czy_odwaze(n, odwazniki, masa, suma + odwazniki[pozycja], pozycja + 1) ||
+            czy_odwaze(n, odwazniki, masa + odwazniki[pozycja], suma, pozycja + 1) ||
+            czy_odwaze(n, odwazniki, masa, suma, pozycja + 1) == 1);
+}
+
+int main() {
+    int i, n, w, suma_odw=0;
+    int suma = 0, pozycja = 0;
+    scanf("%d%d", &n, &w);
+    int odwazniki[n];
+    for (i = 0; i < n; i++) {
+        scanf("%d", &odwazniki[i]);
+    }
+    for (i = 0; i < n; i++) {
+        suma_odw += odwazniki[i];
+    }
+    if (suma_odw < w) {
+        printf("NO");
+        return 0;
+    }
+    if (czy_odwaze(n, odwazniki, w, suma, pozycja)) {
+        printf("YES");
+        return 0;
+    } else {
+        printf("NO");
+        return 0;
+    }
+
+}
