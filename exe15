@@ -1,0 +1,60 @@
+#include <stdio.h>
+
+int suma(int n, int T[n][n], int i, int j, int k, int l);
+
+int main() {
+    int n;
+    scanf("%d", &n);
+    int T[n][n];
+    int flag = 1;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &T[i][j]);
+            if (T[i][j] == 1) {
+                flag = 0;
+            }
+        }
+    }
+    //Same zera:
+    if (flag == 1) {
+        printf("%d", n * n);
+        return 0;
+    }
+    int max_field = 0;
+    int suma_w_prostokacie;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (T[i][j] == 1) {
+                continue;
+            }
+            // (i,j) - górny lewy róg potencjalnego kandydata.
+            for (int k = i; k < n; k++) {
+                for (int l = j; l < n; l++) {
+                    if (T[k][l] == 1) {
+                        break;
+                    }
+                    // (k,l) - lewy dolny róg potencjalnego kandydata.
+                    suma_w_prostokacie = suma(n, T, i, j, k, l);
+                    if (suma_w_prostokacie > max_field) {
+                        max_field = suma_w_prostokacie;
+                    }
+                }
+            }
+        }
+    }
+    printf("%d", max_field);
+    return 0;
+}
+
+int suma(int n, int T[n][n], int i, int j, int k, int l) {
+    int sum_ = 0;
+    for (int row = i; row <= k; row++) {
+        for (int col = j; col <= l; col++) {
+            if (T[row][col] == 1) {
+                return 0;
+            }
+            sum_ += 1;
+        }
+    }
+    return sum_;
+}
