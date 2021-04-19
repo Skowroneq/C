@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+int main() {
+    int n, m;
+    scanf("%d %d", &n, &m);
+    // n-liczba punktów
+    // m-liczba czerwonych odcinków
+    //F[i][j] = 1 gdy punkt i'ty oraz j'ty tworza czerwony odcinek
+    //F[i][j] = 0 gdy punkt i'ty oraz j'ty tworza czarny odcinek
+    int F[n + 1][n + 1];
+    for (int i = 0; i < n + 1; i++) {
+        for (int j = 0; j < n + 1; j++) {
+            F[i][j] = 0;
+        }
+    }
+    int p1;
+    int p2;
+    for (int i = 0; i < m; i++) {
+        scanf("%d %d", &p1, &p2);
+        F[p1][p2] = 1;
+    }
+    int result = 0;
+    for (int i = 1; i < n + 1; i++) {
+        for (int j = i + 1; j < n + 1; j++) {
+            if (F[i][j] == 1) {
+                for (int k = j + 1; k < n + 1; k++) {
+                    if (F[i][k] == 1 && F[j][k] == 1) {
+                        result += 1;
+                    }
+                }
+            } else {
+                for (int k = j + 1; k < n + 1; k++) {
+
+                    if (F[i][k] == 0 && F[j][k] == 0) {
+                        result += 1;
+                    }
+                }
+            }
+        }
+    }
+    printf("%d", result);
+    return 0;
+}
