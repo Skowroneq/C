@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <math.h>
+
+int wprowadz_prostokat(int wiersze, int kolumny, short int plaszczyzna[wiersze][kolumny], int curr_x1, int curr_y1,
+                       int curr_x2, int curr_y2, int licznik_czarnych);
+
+int main() {
+    int curr_x1, curr_x2, curr_y1, curr_y2;
+    int N;
+    scanf("%d", &N);
+    short int T[N][4];
+    // [x1,y1,x2,y2]
+    // [x1,y1,x2,y2]
+    // [x1,y1,x2,y2]
+    // [100][100] oznacza punkt 0,0
+    // 0 - bialy
+    // 1 - czarny
+    short int plaszczyzna[201][201] = {0};
+    int licznik_czarnych = 0;
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < 4; j++) {
+            scanf("%d", &T[i][j]);
+        }
+    }
+    for (int i = 0; i < N; i++) {
+        curr_x1 = T[i][0];
+        curr_y1 = T[i][1];
+        curr_x2 = T[i][2];
+        curr_y2 = T[i][3];
+        licznik_czarnych = wprowadz_prostokat(201, 201, plaszczyzna, curr_x1, curr_y1, curr_x2, curr_y2,
+                                              licznik_czarnych);
+    }
+    printf("%d", licznik_czarnych);
+    return 0;
+}
+
+int wprowadz_prostokat(int wiersze, int kolumny, short int plaszczyzna[wiersze][kolumny], int curr_x1, int curr_y1,
+                       int curr_x2, int curr_y2, int licznik_czarnych) {
+    if (curr_y1 < curr_y2) {
+        for (int i = 100 + curr_y1; i < 100 + curr_y2; i++) {
+            for (int j = 100 + curr_x1; j < 100 + curr_x2; j++) {
+                if (plaszczyzna[i][j] == 0) {
+                    plaszczyzna[i][j] = 1;
+                    licznik_czarnych += 1;
+                } else {
+                    plaszczyzna[i][j] = 0;
+                    licznik_czarnych -= 1;
+                }
+
+            }
+        }
+    }
+    return licznik_czarnych;
+}
