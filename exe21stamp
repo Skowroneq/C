@@ -1,0 +1,53 @@
+#include <stdio.h>
+
+int sum(int n, int T[n][n], int row_range, int col_range, int P[row_range][col_range], int start_y, int start_x) {
+    int sum_ = 0;
+    for (int i = start_y; i < start_y + row_range; i++) {
+        for (int j = start_x; j < start_x + col_range; j++) {
+            if (P[i - start_y][j - start_x] == 1) {
+                sum_ += T[i][j];
+            }
+        }
+    }
+    return sum_;
+}
+
+int main() {
+    int n;
+    int k;
+    int l;
+    scanf("%d %d %d", &n, &k, &l);
+
+    if (k > n || l > n) {
+        printf("0");
+        return 0;
+    }
+
+    int T[n][n];
+    int P[k][l];
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &T[i][j]);
+        }
+    }
+    for (int i = 0; i < k; i++) {
+        for (int j = 0; j < l; j++) {
+            scanf("%d", &P[i][j]);
+        }
+    }
+    int sum_;
+    int max_sum = -1;
+    for (int i = 0; i < n && i + k - 1 < n; i++) {
+        for (int j = 0; j < n && j + l - 1 < n; j++) {
+            //poczatek = (i,j)
+            //koniec   = (i+k-1,j+l-1)
+            sum_ = sum(n, T, k, l, P, i, j);
+            if (sum_ > max_sum) {
+                max_sum = sum_;
+            }
+        }
+    }
+    printf("%d", max_sum);
+    return 0;
+}
