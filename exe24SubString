@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <math.h>
+
+#define MAXSIZE 52
+
+
+int main() {
+    char string[MAXSIZE];
+    char result[MAXSIZE];
+    scanf("%s", string);
+    int index = 0;
+    int length = 0;
+
+    while (string[index] != '\0') {
+        length += 1;
+        index += 1;
+    }
+    result[0] = string[0];
+    int dlugosc = 1;
+    int index_result = 0;
+    for (int i = 1; i < length; i++) {
+        if ((int) string[i] < (int) result[index_result]) {
+            index_result += 1;
+            dlugosc += 1;
+            result[index_result] = string[i];
+
+        } else if ((int) string[i] == (int) result[index_result]) {
+            index_result += 1;
+            result[index_result] = string[i];
+            dlugosc += 1;
+        }
+        else {
+            while (string[i] > result[index_result] && index_result >= 0) {
+                dlugosc -= 1;
+                index_result -= 1;
+            }
+            dlugosc += 1;
+            index_result += 1;
+            result[index_result] = string[i];
+        }
+    }
+
+    for (int a = 0; a < dlugosc; a++) {
+        printf("%c", result[a]);
+    }
+    return 0;
+}
