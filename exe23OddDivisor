@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+int main() {
+    int N;
+    scanf("%d", &N);
+    unsigned long long int sum = 0;
+    int num;
+    for (int i = 1; i <= N; i += 2) {
+        num = i;
+        while (num <= N) {
+            sum += i;
+            num *= 2;
+
+        }
+    }
+    printf("%llu", sum);
+}
