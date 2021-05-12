@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <math.h>
+
+
+unsigned long long int sum(unsigned long long int);
+
+int main() {
+    unsigned long long int left = 1;
+    unsigned long long int right = (unsigned long long int) pow(10, 18);
+    unsigned long long int middle;
+    unsigned long long int result;
+    unsigned long long int S;
+    scanf("%llu", &S);
+  
+    while (left <= right) {
+        middle = (left + right) / 2;
+        result = sum(middle);
+        if (result == S) {
+            printf("%llu", middle);
+            return 0;
+        }
+        if (result > S) {
+            right = middle - 1;
+        } 
+        else {
+            left = middle + 1;
+        }
+    }
+    printf("%d", -1);
+}
+
+unsigned long long int sum(unsigned long long int num) {
+    unsigned long long int result = 0;
+    while (num > 0) {
+        result += num;
+        num = num / 10;
+    }
+    return result;
+}
