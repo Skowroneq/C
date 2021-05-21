@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define TRUE 1
+#define FALSE 1
+#define MAXSIZE 51
+
+int main() {
+    char *string = (char *) malloc(sizeof(char) * MAXSIZE);
+    int primes[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47};
+
+    scanf("%s", string);
+    int n = strlen(string);
+    int *visited = (int *) malloc(sizeof(int) * n);
+    char *try = (char *) malloc(sizeof(char) * (n + 1));
+    try[n] = '\0';
+    char *result = (char *) malloc(sizeof(char) * n);
+    for (int i = 0; i < n; i++) {
+        result[i] = string[i];
+    }
+    int temp, p;
+    int counter;
+    int index, try_index;
+
+    for (int o = 0; o < n; o++) {
+        for (int i = 0; i < 15 && primes[i] < n; i++) {
+            p = primes[i];
+            //Przesunięcie o , skok p
+            //Resetujemy naszą tablice try oraz visited na nową próbę.
+            for (int k = 0; k < n; k++) {
+                try[k] = '\0';
+                visited[k] = FALSE;
+            }
+
+            counter = 0;
+            index = o;
+            try_index = 0;
+            while (counter != n) {
+                if (visited[index] == FALSE) {
+                    try[try_index] = string[index];
+                    visited[index] = TRUE;
+                    try_index += 1;
+                    counter += 1;
+                } else {
+                    break;
+                }
+                index = (index + p) % n;
+            }
+            if (counter == n) {
+                // Jeśli nowopowstały string jest mniejszy od obecnie przechowywanego wyniku to update'ujemy.
+                temp = strcmp(try, result);
+                if (temp == -1) {
+                    strcpy(result, try);
+                }
+            }
+        }
+    }
+    //Wypisujemy wynik
+    for (int i = 0; i < n; i++) {
+        printf("%c", result[i]);
+    }
+    free(string);
+    free(result);
+    free(visited);
+    free(try);
+    return 0;
+}
