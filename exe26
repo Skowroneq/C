@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+
+void wpisz_binarnie(int *T, unsigned long long int number, int N);
+
+int czy_zmiana_jednego_bitu(const int T[], int N, unsigned long long int M);
+
+int main() {
+    int N;
+    unsigned long long int M;
+    unsigned long long int max_range = 0;
+    scanf("%d %llu", &N, &M);
+
+    if (M == 1 || M == 0) {
+        printf("0");
+        return 0;
+    }
+
+    // Największa liczba N bitowa to będzie zasieg.
+    for (int i = 0; i < N; i++) {
+        max_range += (unsigned long long int) pow(2, i);
+    }
+    // Tablica T przechowuje reprezentacje bitową kandydata na semiwielokrotność M.
+    int *T = (int *) malloc(sizeof(int) * N);
+    int counter = 0;
+
+    for (unsigned long long int i = 0; i <= max_range; i++) {
+        // Nie jest wielokrotnością M.
+        if (i % M != 0) {
+            // Liczbe i zamieniamy na postać binarną wpisując ją do tablicy T.
+            wpisz_binarnie(T, i, N);
+            // Teraz sprawdzam czy przy zmianie dowolnego jednego bitu w tablicy T otrzymam liczbę która jest wielokrotnością M.
+            // Jeśli tak zwiekszam counter o 1.
+            int a = czy_zmiana_jednego_bitu(T, N, M);
+            if (a == 1) {
+                counter += 1;
+            }
+        }
+    }
+    free(T);
+    printf("%d", counter);
+    return 0;
+}
+
+void wpisz_binarnie(int *T, unsigned long long int number, int N) {
+    int index = N - 1;
+    int rest;
+    while (number > 0) {
+        rest = (int) number % 2;
+        T[index] = rest;
+        index -= 1;
+        number = number / 2;
+    }
+    while (index >= 0) {
+        T[index] = 0;
+        index -= 1;
+    }
+}
+
+int czy_zmiana_jednego_bitu(const int T[], int N, unsigned long long int M) {
+    unsigned long long int result;
+    int potega;
+    int index;
+
+    // na pozycji i zmieniam bit. index idzie od konca bedzie on wyliczał nowopowstałą liczbe która powstaje z liczby w tablicy T gdzie na i'tym polu zmieniam index.
+    for (int i = N - 1; i >= 0; i--) {
+        potega = 0;
+        index = N - 1;
+        result = 0;
+        while (index >= 0) {
+            if (index != i) {
+                if (T[index] == 1) {
+                    result += (unsigned long long int) pow(2, potega);
+                }
+            } else {
+
+                if (T[index] == 0) {
+                    result += (unsigned long long int) pow(2, potega);
+                }
+            }
+            index -= 1;
+            potega += 1;
+        }
+        // Jeżeli powstała liczba jest wielokrotnością M to zwracam 1.
+
+        if (result % M == 0 && result != 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
